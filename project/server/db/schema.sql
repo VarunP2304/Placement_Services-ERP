@@ -1,0 +1,54 @@
+CREATE DATABASE IF NOT EXISTS placement_portal;
+USE placement_portal;
+
+CREATE TABLE users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE profiles (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(20),
+  bio TEXT,
+  avatar VARCHAR(255),
+  skills JSON,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE education (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  degree VARCHAR(255) NOT NULL,
+  institution VARCHAR(255) NOT NULL,
+  year VARCHAR(20) NOT NULL,
+  grade VARCHAR(20),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE experience (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  company VARCHAR(255) NOT NULL,
+  duration VARCHAR(100) NOT NULL,
+  description TEXT,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE jobs (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  company VARCHAR(255) NOT NULL,
+  location VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  skills JSON NOT NULL,
+  status ENUM('Open', 'Closed') DEFAULT 'Open',
+  deadline DATE NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
